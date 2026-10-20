@@ -1,0 +1,29 @@
+  <!doctype html>
+  <html lang="es">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Lista de tareas</title>
+      <link rel="stylesheet" href="src/styles/styles.css" />
+      <script type="module" src="dist/main.js"></script>
+    </head>
+    <body>
+      <main class="container">
+        <h1>Lista de tareas</h1>
+
+        <form id="taskForm">
+          <label for="taskTitle">Tarea</label>
+          <input id="taskTitle" name="taskTitle" type="text"/>
+
+          <label for="taskDescription">Descripción (opcional)</label>
+          <textarea id="taskDescription" name="taskDescription" rows="4"></textarea>
+
+          <button type="submit">Agregar tarea</button>
+        </form>
+
+        <div id="message" class="message"></div>
+        <input type="text" id="searchInput" placeholder="Buscar por título..." />
+        <div id="taskList"></div>
+      </main>
+    </body>
+  </html>
