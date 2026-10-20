@@ -12,7 +12,12 @@ export class TaskController {
         this.view.bindAddTask(this.handleAddTask.bind(this));
         this.view.bindDeleteTask(this.handleDeleteTask.bind(this));
         this.view.bindSearch(this.handleSearch.bind(this));
+        this.view.bindFilterStatus(this.handleFilterStatus.bind(this));
+        this.refresh();
+    }
+    refresh() {
         this.view.renderTasks(this.model.getAllTasks());
+        this.view.renderPendingCount(this.model.getPendingCount());
     }
     handleAddTask(title, description, priority) {
         if (!title) {
@@ -20,13 +25,13 @@ export class TaskController {
             return;
         }
         this.model.addTask(title, description, priority);
-        this.view.renderTasks(this.model.getAllTasks());
+        this.refresh();
         this.view.clearForm();
         this.view.showMessage('Tarea agregada correctamente', 'success');
     }
     handleDeleteTask(id) {
         this.model.deleteTask(id);
-        this.view.renderTasks(this.model.getAllTasks());
+        this.refresh();
         this.view.showMessage('Tarea eliminada', 'success');
     }
     handleSearch(query) {
@@ -35,6 +40,9 @@ export class TaskController {
             return;
         }
         this.view.renderTasks(this.model.searchTasks(query));
+    }
+    handleFilterStatus(status) {
+        this.view.renderTasks(this.model.filterByStatus(status));
     }
 }
 //# sourceMappingURL=TaskController.js.map

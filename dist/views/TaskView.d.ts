@@ -7,6 +7,8 @@ export declare class TaskView {
     private messageDiv;
     private searchInput;
     private priorityInput;
+    private statusFilter;
+    private pendingCountEl;
     constructor();
     getFormData(): {
         title: string;
@@ -19,5 +21,7 @@ export declare class TaskView {
     bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja') => void): void;
     bindDeleteTask(handler: (id: number) => void): void;
     bindSearch(handler: (query: string) => void): void;
+    bindFilterStatus(handler: (status: 'all' | 'pending' | 'completed') => void): void;
+    renderPendingCount(count: number): void;
 }
 //# sourceMappingURL=TaskView.d.ts.map

@@ -5,8 +5,10 @@ export declare class TaskController {
     private view;
     constructor(model: TaskModel, view: TaskView);
     private init;
+    private refresh;
     private handleAddTask;
     private handleDeleteTask;
     private handleSearch;
+    private handleFilterStatus;
 }
 //# sourceMappingURL=TaskController.d.ts.map

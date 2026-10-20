@@ -6,6 +6,8 @@ export class TaskView {
     messageDiv;
     searchInput;
     priorityInput;
+    statusFilter;
+    pendingCountEl;
     constructor() {
         this.form = document.getElementById('taskForm');
         this.titleInput = document.getElementById('taskTitle');
@@ -14,6 +16,8 @@ export class TaskView {
         this.messageDiv = document.getElementById('message');
         this.searchInput = document.getElementById('searchInput');
         this.priorityInput = document.getElementById('taskPriority');
+        this.statusFilter = document.getElementById('statusFilter');
+        this.pendingCountEl = document.getElementById('pendingCount');
     }
     getFormData() {
         return {
@@ -44,6 +48,7 @@ export class TaskView {
                     <strong>${task.title}</strong>
                     <p>${task.description}</p>
                     <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
+                    <span class="priority-${task.priority}">${task.priority}</span>
                     <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
                 </div>
             `)
@@ -71,6 +76,14 @@ export class TaskView {
         this.searchInput.addEventListener('input', () => {
             handler(this.searchInput.value.trim());
         });
+    }
+    bindFilterStatus(handler) {
+        this.statusFilter.addEventListener('change', () => {
+            handler(this.statusFilter.value);
+        });
+    }
+    renderPendingCount(count) {
+        this.pendingCountEl.textContent = `Tareas pendientes: ${count}`;
     }
 }
 //# sourceMappingURL=TaskView.js.map

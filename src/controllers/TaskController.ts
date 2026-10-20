@@ -13,7 +13,13 @@ export class TaskController {
         this.view.bindAddTask(this.handleAddTask.bind(this));
         this.view.bindDeleteTask(this.handleDeleteTask.bind(this));
         this.view.bindSearch(this.handleSearch.bind(this));
+        this.view.bindFilterStatus(this.handleFilterStatus.bind(this));
+        this.refresh();
+    }
+
+    private refresh(): void {
         this.view.renderTasks(this.model.getAllTasks());
+        this.view.renderPendingCount(this.model.getPendingCount());
     }
 
     private handleAddTask(title: string, description: string, priority: 'alta' | 'media' | 'baja'): void {
@@ -23,14 +29,14 @@ export class TaskController {
         }
 
         this.model.addTask(title, description, priority);
-        this.view.renderTasks(this.model.getAllTasks());
+        this.refresh();
         this.view.clearForm();
         this.view.showMessage('Tarea agregada correctamente', 'success');
     }
 
     private handleDeleteTask(id: number): void {
         this.model.deleteTask(id);
-        this.view.renderTasks(this.model.getAllTasks());
+        this.refresh();
         this.view.showMessage('Tarea eliminada', 'success');
     }
 
@@ -41,4 +47,8 @@ export class TaskController {
         }
         this.view.renderTasks(this.model.searchTasks(query));
     }
-}   
+
+    private handleFilterStatus(status: 'all' | 'pending' | 'completed'): void {
+        this.view.renderTasks(this.model.filterByStatus(status));
+    }
+}
