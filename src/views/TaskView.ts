@@ -7,6 +7,7 @@ export class TaskView {
     private taskList: HTMLDivElement;
     private messageDiv: HTMLDivElement;
     private searchInput: HTMLInputElement;
+    private priorityInput: HTMLSelectElement;
 
     constructor() {
         this.form = document.getElementById('taskForm') as HTMLFormElement;
@@ -15,12 +16,14 @@ export class TaskView {
         this.taskList = document.getElementById('taskList') as HTMLDivElement;
         this.messageDiv = document.getElementById('message') as HTMLDivElement;
         this.searchInput = document.getElementById('searchInput') as HTMLInputElement;
+        this.priorityInput = document.getElementById('taskPriority') as HTMLSelectElement;
     }
 
-    getFormData(): { title: string; description: string } {
+    getFormData(): { title: string; description: string; priority: 'alta' | 'media' | 'baja' } {
         return {
             title: this.titleInput.value.trim(),
-            description: this.descriptionInput.value.trim()
+            description: this.descriptionInput.value.trim(),
+            priority: this.priorityInput.value as 'alta' | 'media' | 'baja'
         };
     }
 
@@ -54,14 +57,13 @@ export class TaskView {
             .join('');
     }
     
-    bindAddTask(handler: (title: string, description: string) => void): void {
-    this.form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const { title, description } = this.getFormData();
-        handler(title, description);
-    });
+    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja') => void): void {
+        this.form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const { title, description, priority } = this.getFormData();
+            handler(title, description, priority);
+        });
     }
-
     bindDeleteTask(handler: (id: number) => void): void {
         this.taskList.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;

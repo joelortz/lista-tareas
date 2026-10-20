@@ -5,6 +5,7 @@ export class TaskView {
     taskList;
     messageDiv;
     searchInput;
+    priorityInput;
     constructor() {
         this.form = document.getElementById('taskForm');
         this.titleInput = document.getElementById('taskTitle');
@@ -12,11 +13,13 @@ export class TaskView {
         this.taskList = document.getElementById('taskList');
         this.messageDiv = document.getElementById('message');
         this.searchInput = document.getElementById('searchInput');
+        this.priorityInput = document.getElementById('taskPriority');
     }
     getFormData() {
         return {
             title: this.titleInput.value.trim(),
-            description: this.descriptionInput.value.trim()
+            description: this.descriptionInput.value.trim(),
+            priority: this.priorityInput.value
         };
     }
     clearForm() {
@@ -49,8 +52,8 @@ export class TaskView {
     bindAddTask(handler) {
         this.form.addEventListener('submit', (event) => {
             event.preventDefault();
-            const { title, description } = this.getFormData();
-            handler(title, description);
+            const { title, description, priority } = this.getFormData();
+            handler(title, description, priority);
         });
     }
     bindDeleteTask(handler) {

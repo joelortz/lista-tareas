@@ -6,15 +6,17 @@ export declare class TaskView {
     private taskList;
     private messageDiv;
     private searchInput;
+    private priorityInput;
     constructor();
     getFormData(): {
         title: string;
         description: string;
+        priority: 'alta' | 'media' | 'baja';
     };
     clearForm(): void;
     showMessage(text: string, type: 'success' | 'error'): void;
     renderTasks(tasks: Task[]): void;
-    bindAddTask(handler: (title: string, description: string) => void): void;
+    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja') => void): void;
     bindDeleteTask(handler: (id: number) => void): void;
     bindSearch(handler: (query: string) => void): void;
 }

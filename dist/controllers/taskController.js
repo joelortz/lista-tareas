@@ -14,12 +14,12 @@ export class TaskController {
         this.view.bindSearch(this.handleSearch.bind(this));
         this.view.renderTasks(this.model.getAllTasks());
     }
-    handleAddTask(title, description) {
+    handleAddTask(title, description, priority) {
         if (!title) {
             this.view.showMessage('El título es obligatorio', 'error');
             return;
         }
-        this.model.addTask(title, description);
+        this.model.addTask(title, description, priority);
         this.view.renderTasks(this.model.getAllTasks());
         this.view.clearForm();
         this.view.showMessage('Tarea agregada correctamente', 'success');
