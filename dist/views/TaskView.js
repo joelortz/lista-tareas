@@ -44,14 +44,14 @@ export class TaskView {
         }
         this.taskList.innerHTML = tasks
             .map(task => `
-                <div class="task-card">
-                    <strong>${task.title}</strong>
-                    <p>${task.description}</p>
-                    <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
-                    <span class="priority-${task.priority}">${task.priority}</span>
-                    <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
-                </div>
-            `)
+                    <div class="task-card">
+                        <strong>${task.title}</strong>
+                        <p>${task.description}</p>
+                        <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
+                        <span class="priority-${task.priority}">${task.priority}</span>
+                        <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
+                    </div>
+                `)
             .join('');
     }
     bindAddTask(handler) {
