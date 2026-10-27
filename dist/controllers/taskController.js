@@ -17,7 +17,9 @@ export class TaskController {
         this.refresh();
     }
     refresh() {
-        this.view.renderTasks(this.model.getAllTasks());
+        const tasks = this.model.getAllTasks();
+        const overdueIds = tasks.filter(t => this.model.isOverdue(t)).map(t => t.id);
+        this.view.renderTasks(tasks, overdueIds);
         this.view.renderPendingCount(this.model.getPendingCount());
     }
     handleAddTask(title, description, priority, dueDate) {

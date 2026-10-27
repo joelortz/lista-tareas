@@ -40,23 +40,23 @@ export class TaskView {
             this.messageDiv.className = 'message';
         }, 3000);
     }
-    renderTasks(tasks) {
+    renderTasks(tasks, overdueIds = []) {
         if (tasks.length === 0) {
             this.taskList.innerHTML = '<p>No hay tareas registradas</p>';
             return;
         }
         this.taskList.innerHTML = tasks
             .map(task => `
-                    <div class="task-card">
-                        <strong>${task.title}</strong>
-                        <p>${task.description}</p>
-                        <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
-                        <span class="priority-${task.priority}">${task.priority}</span>
-                        <p>Vence: ${task.dueDate || 'Sin fecha'}</p>
-                        <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
-                        <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
-                    </div>
-                `)
+                <div class="task-card ${overdueIds.includes(task.id) ? 'overdue' : ''}">
+                    <strong>${task.title}</strong>
+                    <p>${task.description}</p>
+                    <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
+                    <span class="priority-${task.priority}">${task.priority}</span>
+                    <p>Vence: ${task.dueDate || 'Sin fecha'}</p>
+                    <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
+                    <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
+                </div>
+            `)
             .join('');
     }
     bindAddTask(handler) {
