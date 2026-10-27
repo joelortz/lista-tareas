@@ -22,6 +22,7 @@ export declare class TaskView {
     bindDeleteTask(handler: (id: number) => void): void;
     bindSearch(handler: (query: string) => void): void;
     bindFilterStatus(handler: (status: 'all' | 'pending' | 'completed') => void): void;
+    bindToggleComplete(handler: (id: number) => void): void;
     renderPendingCount(count: number): void;
 }
 //# sourceMappingURL=TaskView.d.ts.map

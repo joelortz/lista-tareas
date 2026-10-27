@@ -91,3 +91,55 @@ body {
 .delete-btn:hover {
   background: #b91c1c;
 }
+
+#taskPriority,
+#statusFilter {
+  width: 100%;
+  padding: 0.7rem;
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#taskPriority:focus,
+#statusFilter:focus {
+  border-color: #2563eb;
+  outline: 2px solid rgb(37 99 235 / 20%);
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.task-card .priority-alta,
+.task-card .priority-media,
+.task-card .priority-baja {
+  width: fit-content;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.task-card .priority-alta {
+  color: #7f1d1d;
+  background: #fee2e2;
+}
+
+.task-card .priority-media {
+  color: #78350f;
+  background: #fef3c7;
+}
+
+.task-card .priority-baja {
+  color: #14532d;
+  background: #dcfce7;
+}
+
+#pendingCount {
+  margin: 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}

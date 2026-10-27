@@ -53,4 +53,12 @@ export class TaskModel {
     getPendingCount(): number {
         return this.tasks.filter(t => !t.completed).length;
     }
+
+    toggleComplete(id: number): void {
+        const task = this.tasks.find(t => t.id === id);
+        if (task) {
+            task.completed = !task.completed;
+            this.storage.saveTasks(this.tasks);
+        }
+    }
 }

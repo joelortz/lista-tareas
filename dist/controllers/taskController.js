@@ -13,6 +13,7 @@ export class TaskController {
         this.view.bindDeleteTask(this.handleDeleteTask.bind(this));
         this.view.bindSearch(this.handleSearch.bind(this));
         this.view.bindFilterStatus(this.handleFilterStatus.bind(this));
+        this.view.bindToggleComplete(this.handleToggleComplete.bind(this));
         this.refresh();
     }
     refresh() {
@@ -43,6 +44,10 @@ export class TaskController {
     }
     handleFilterStatus(status) {
         this.view.renderTasks(this.model.filterByStatus(status));
+    }
+    handleToggleComplete(id) {
+        this.model.toggleComplete(id);
+        this.refresh();
     }
 }
 //# sourceMappingURL=TaskController.js.map

@@ -49,6 +49,7 @@ export class TaskView {
                         <p>${task.description}</p>
                         <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
                         <span class="priority-${task.priority}">${task.priority}</span>
+                        <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
                         <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
                     </div>
                 `)
@@ -80,6 +81,14 @@ export class TaskView {
     bindFilterStatus(handler) {
         this.statusFilter.addEventListener('change', () => {
             handler(this.statusFilter.value);
+        });
+    }
+    bindToggleComplete(handler) {
+        this.taskList.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target.classList.contains('toggle-btn')) {
+                handler(Number(target.dataset.id));
+            }
         });
     }
     renderPendingCount(count) {

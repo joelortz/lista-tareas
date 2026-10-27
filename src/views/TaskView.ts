@@ -56,6 +56,7 @@
                         <p>${task.description}</p>
                         <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
                         <span class="priority-${task.priority}">${task.priority}</span>
+                        <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
                         <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
                     </div>
                 `)
@@ -90,6 +91,15 @@
         bindFilterStatus(handler: (status: 'all' | 'pending' | 'completed') => void): void {
             this.statusFilter.addEventListener('change', () => {
                 handler(this.statusFilter.value as 'all' | 'pending' | 'completed');
+            });
+        }
+
+        bindToggleComplete(handler: (id: number) => void): void {
+            this.taskList.addEventListener('click', (event) => {
+                const target = event.target as HTMLElement;
+                if (target.classList.contains('toggle-btn')) {
+                    handler(Number(target.dataset.id));
+                }
             });
         }
 

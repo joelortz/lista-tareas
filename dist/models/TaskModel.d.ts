@@ -10,5 +10,6 @@ export declare class TaskModel {
     searchTasks(query: string): Task[];
     filterByStatus(status: 'all' | 'pending' | 'completed'): Task[];
     getPendingCount(): number;
+    toggleComplete(id: number): void;
 }
 //# sourceMappingURL=TaskModel.d.ts.map

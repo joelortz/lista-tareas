@@ -42,5 +42,12 @@ export class TaskModel {
     getPendingCount() {
         return this.tasks.filter(t => !t.completed).length;
     }
+    toggleComplete(id) {
+        const task = this.tasks.find(t => t.id === id);
+        if (task) {
+            task.completed = !task.completed;
+            this.storage.saveTasks(this.tasks);
+        }
+    }
 }
 //# sourceMappingURL=TaskModel.js.map
