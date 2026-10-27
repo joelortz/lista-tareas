@@ -3,6 +3,9 @@ import { TaskView } from '../views/TaskView.js';
 export declare class TaskController {
     private model;
     private view;
+    private currentStatus;
+    private currentQuery;
+    private currentSort;
     constructor(model: TaskModel, view: TaskView);
     private init;
     private refresh;
@@ -10,6 +13,7 @@ export declare class TaskController {
     private handleDeleteTask;
     private handleSearch;
     private handleFilterStatus;
+    private handleSort;
     private handleToggleComplete;
     private handleEditTask;
 }

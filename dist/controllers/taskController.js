@@ -3,6 +3,9 @@ import { TaskView } from '../views/TaskView.js';
 export class TaskController {
     model;
     view;
+    currentStatus = 'all';
+    currentQuery = '';
+    currentSort = 'title';
     constructor(model, view) {
         this.model = model;
         this.view = view;
@@ -15,11 +18,17 @@ export class TaskController {
         this.view.bindFilterStatus(this.handleFilterStatus.bind(this));
         this.view.bindToggleComplete(this.handleToggleComplete.bind(this));
         this.view.bindEditTask(this.handleEditTask.bind(this));
+        this.view.bindSort(this.handleSort.bind(this));
         this.refresh();
     }
     refresh() {
-        const tasks = this.model.getAllTasks();
-        const overdueIds = tasks.filter(t => this.model.isOverdue(t)).map(t => t.id);
+        let tasks = this.currentQuery
+            ? this.model.searchTasks(this.currentQuery)
+            : this.model.filterByStatus(this.currentStatus);
+        tasks = this.model.sortTasks(tasks, this.currentSort);
+        const overdueIds = this.model.getAllTasks()
+            .filter(t => this.model.isOverdue(t))
+            .map(t => t.id);
         this.view.renderTasks(tasks, overdueIds);
         this.view.renderPendingCount(this.model.getPendingCount());
     }
@@ -45,14 +54,16 @@ export class TaskController {
         this.view.showMessage('Tarea eliminada', 'success');
     }
     handleSearch(query) {
-        if (!query) {
-            this.view.renderTasks(this.model.getAllTasks());
-            return;
-        }
-        this.view.renderTasks(this.model.searchTasks(query));
+        this.currentQuery = query;
+        this.refresh();
     }
     handleFilterStatus(status) {
-        this.view.renderTasks(this.model.filterByStatus(status));
+        this.currentStatus = status;
+        this.refresh();
+    }
+    handleSort(sortBy) {
+        this.currentSort = sortBy;
+        this.refresh();
     }
     handleToggleComplete(id) {
         this.model.toggleComplete(id);

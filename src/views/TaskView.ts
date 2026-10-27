@@ -12,6 +12,7 @@ export class TaskView {
     private pendingCountEl: HTMLParagraphElement;
     private dueDateInput: HTMLInputElement;
     private editingId: number | null = null;
+    private sortBySelect: HTMLSelectElement;
 
     constructor() {
         this.form = document.getElementById('taskForm') as HTMLFormElement;
@@ -24,6 +25,7 @@ export class TaskView {
         this.statusFilter = document.getElementById('statusFilter') as HTMLSelectElement;
         this.pendingCountEl = document.getElementById('pendingCount') as HTMLParagraphElement;
         this.dueDateInput = document.getElementById('taskDueDate') as HTMLInputElement;
+        this.sortBySelect = document.getElementById('sortBy') as HTMLSelectElement;
     }
 
     getFormData(): { title: string; description: string; priority: 'alta' | 'media' | 'baja'; dueDate: string; editingId: number | null } {
@@ -129,6 +131,12 @@ export class TaskView {
             if (target.classList.contains('edit-btn')) {
                 handler(Number(target.dataset.id));
             }
+        });
+    }
+
+    bindSort(handler: (sortBy: 'title' | 'dueDate' | 'priority') => void): void {
+        this.sortBySelect.addEventListener('change', () => {
+            handler(this.sortBySelect.value as 'title' | 'dueDate' | 'priority');
         });
     }
 

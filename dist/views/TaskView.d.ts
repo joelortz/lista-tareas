@@ -11,6 +11,7 @@ export declare class TaskView {
     private pendingCountEl;
     private dueDateInput;
     private editingId;
+    private sortBySelect;
     constructor();
     getFormData(): {
         title: string;
@@ -29,6 +30,7 @@ export declare class TaskView {
     bindFilterStatus(handler: (status: 'all' | 'pending' | 'completed') => void): void;
     bindToggleComplete(handler: (id: number) => void): void;
     bindEditTask(handler: (id: number) => void): void;
+    bindSort(handler: (sortBy: 'title' | 'dueDate' | 'priority') => void): void;
     renderPendingCount(count: number): void;
 }
 //# sourceMappingURL=TaskView.d.ts.map

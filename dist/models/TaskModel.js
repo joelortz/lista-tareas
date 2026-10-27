@@ -67,5 +67,17 @@ export class TaskModel {
             this.storage.saveTasks(this.tasks);
         }
     }
+    sortTasks(tasks, sortBy) {
+        const priorityOrder = { alta: 0, media: 1, baja: 2 };
+        return [...tasks].sort((a, b) => {
+            if (sortBy === 'title') {
+                return a.title.localeCompare(b.title);
+            }
+            if (sortBy === 'dueDate') {
+                return a.dueDate.localeCompare(b.dueDate);
+            }
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        });
+    }
 }
 //# sourceMappingURL=TaskModel.js.map

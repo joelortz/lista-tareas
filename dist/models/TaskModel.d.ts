@@ -13,5 +13,6 @@ export declare class TaskModel {
     isOverdue(task: Task): boolean;
     toggleComplete(id: number): void;
     updateTask(id: number, title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string): void;
+    sortTasks(tasks: Task[], sortBy: 'title' | 'dueDate' | 'priority'): Task[];
 }
 //# sourceMappingURL=TaskModel.d.ts.map

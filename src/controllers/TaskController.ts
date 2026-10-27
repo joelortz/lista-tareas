@@ -2,6 +2,10 @@ import { TaskModel } from '../models/TaskModel.js';
 import { TaskView } from '../views/TaskView.js';
 
 export class TaskController {
+    private currentStatus: 'all' | 'pending' | 'completed' = 'all';
+    private currentQuery: string = '';
+    private currentSort: 'title' | 'dueDate' | 'priority' = 'title';
+
     constructor(
         private model: TaskModel,
         private view: TaskView
@@ -16,12 +20,21 @@ export class TaskController {
         this.view.bindFilterStatus(this.handleFilterStatus.bind(this));
         this.view.bindToggleComplete(this.handleToggleComplete.bind(this));
         this.view.bindEditTask(this.handleEditTask.bind(this));
+        this.view.bindSort(this.handleSort.bind(this));
         this.refresh();
     }
 
     private refresh(): void {
-        const tasks = this.model.getAllTasks();
-        const overdueIds = tasks.filter(t => this.model.isOverdue(t)).map(t => t.id);
+        let tasks = this.currentQuery
+            ? this.model.searchTasks(this.currentQuery)
+            : this.model.filterByStatus(this.currentStatus);
+
+        tasks = this.model.sortTasks(tasks, this.currentSort);
+
+        const overdueIds = this.model.getAllTasks()
+            .filter(t => this.model.isOverdue(t))
+            .map(t => t.id);
+
         this.view.renderTasks(tasks, overdueIds);
         this.view.renderPendingCount(this.model.getPendingCount());
     }
@@ -51,15 +64,18 @@ export class TaskController {
     }
 
     private handleSearch(query: string): void {
-        if (!query) {
-            this.view.renderTasks(this.model.getAllTasks());
-            return;
-        }
-        this.view.renderTasks(this.model.searchTasks(query));
+        this.currentQuery = query;
+        this.refresh();
     }
 
     private handleFilterStatus(status: 'all' | 'pending' | 'completed'): void {
-        this.view.renderTasks(this.model.filterByStatus(status));
+        this.currentStatus = status;
+        this.refresh();
+    }
+
+    private handleSort(sortBy: 'title' | 'dueDate' | 'priority'): void {
+        this.currentSort = sortBy;
+        this.refresh();
     }
 
     private handleToggleComplete(id: number): void {
