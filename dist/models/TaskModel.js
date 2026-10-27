@@ -57,5 +57,15 @@ export class TaskModel {
             this.storage.saveTasks(this.tasks);
         }
     }
+    updateTask(id, title, description, priority, dueDate) {
+        const task = this.tasks.find(t => t.id === id);
+        if (task) {
+            task.title = title;
+            task.description = description;
+            task.priority = priority;
+            task.dueDate = dueDate;
+            this.storage.saveTasks(this.tasks);
+        }
+    }
 }
 //# sourceMappingURL=TaskModel.js.map

@@ -11,6 +11,7 @@ export class TaskView {
     private statusFilter: HTMLSelectElement;
     private pendingCountEl: HTMLParagraphElement;
     private dueDateInput: HTMLInputElement;
+    private editingId: number | null = null;
 
     constructor() {
         this.form = document.getElementById('taskForm') as HTMLFormElement;
@@ -25,12 +26,13 @@ export class TaskView {
         this.dueDateInput = document.getElementById('taskDueDate') as HTMLInputElement;
     }
 
-    getFormData(): { title: string; description: string; priority: 'alta' | 'media' | 'baja'; dueDate: string } {
+    getFormData(): { title: string; description: string; priority: 'alta' | 'media' | 'baja'; dueDate: string; editingId: number | null } {
         return {
             title: this.titleInput.value.trim(),
             description: this.descriptionInput.value.trim(),
             priority: this.priorityInput.value as 'alta' | 'media' | 'baja',
-            dueDate: this.dueDateInput.value
+            dueDate: this.dueDateInput.value,
+            editingId: this.editingId
         };
     }
 
@@ -62,19 +64,32 @@ export class TaskView {
                     <span class="priority-${task.priority}">${task.priority}</span>
                     <p>Vence: ${task.dueDate || 'Sin fecha'}</p>
                     <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
-                    <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
+                    <button data-id="${task.id}" class="delete-btn">Eliminar</button>
+                    <button data-id="${task.id}" class="edit-btn">Editar</button>
                 </div>
             `)
             .join('');
     }
-    
-    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja',  dueDate: string) => void): void {
+
+    loadTaskIntoForm(task: Task): void {
+        this.editingId = task.id;
+        this.titleInput.value = task.title;
+        this.descriptionInput.value = task.description;
+        this.priorityInput.value = task.priority;
+        this.dueDateInput.value = task.dueDate;
+        this.form.querySelector('button[type="submit"]')!.textContent = 'Actualizar tarea';
+    }
+
+    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string, editingId: number | null) => void): void {
         this.form.addEventListener('submit', (event) => {
             event.preventDefault();
-            const { title, description, priority, dueDate } = this.getFormData();
-            handler(title, description, priority, dueDate);
+            const { title, description, priority, dueDate, editingId } = this.getFormData();
+            handler(title, description, priority, dueDate, editingId);
+            this.editingId = null;
+            this.form.querySelector('button[type="submit"]')!.textContent = 'Agregar tarea';
         });
     }
+
     bindDeleteTask(handler: (id: number) => void): void {
         this.taskList.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
@@ -103,6 +118,15 @@ export class TaskView {
         this.taskList.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
             if (target.classList.contains('toggle-btn')) {
+                handler(Number(target.dataset.id));
+            }
+        });
+    }
+
+    bindEditTask(handler: (id: number) => void): void {
+        this.taskList.addEventListener('click', (event) => {
+            const target = event.target as HTMLElement;
+            if (target.classList.contains('edit-btn')) {
                 handler(Number(target.dataset.id));
             }
         });

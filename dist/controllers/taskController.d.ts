@@ -11,5 +11,6 @@ export declare class TaskController {
     private handleSearch;
     private handleFilterStatus;
     private handleToggleComplete;
+    private handleEditTask;
 }
 //# sourceMappingURL=TaskController.d.ts.map

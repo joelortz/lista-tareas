@@ -10,21 +10,25 @@ export declare class TaskView {
     private statusFilter;
     private pendingCountEl;
     private dueDateInput;
+    private editingId;
     constructor();
     getFormData(): {
         title: string;
         description: string;
         priority: 'alta' | 'media' | 'baja';
         dueDate: string;
+        editingId: number | null;
     };
     clearForm(): void;
     showMessage(text: string, type: 'success' | 'error'): void;
     renderTasks(tasks: Task[], overdueIds?: number[]): void;
-    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string) => void): void;
+    loadTaskIntoForm(task: Task): void;
+    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string, editingId: number | null) => void): void;
     bindDeleteTask(handler: (id: number) => void): void;
     bindSearch(handler: (query: string) => void): void;
     bindFilterStatus(handler: (status: 'all' | 'pending' | 'completed') => void): void;
     bindToggleComplete(handler: (id: number) => void): void;
+    bindEditTask(handler: (id: number) => void): void;
     renderPendingCount(count: number): void;
 }
 //# sourceMappingURL=TaskView.d.ts.map

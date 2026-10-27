@@ -9,6 +9,7 @@ export class TaskView {
     statusFilter;
     pendingCountEl;
     dueDateInput;
+    editingId = null;
     constructor() {
         this.form = document.getElementById('taskForm');
         this.titleInput = document.getElementById('taskTitle');
@@ -26,7 +27,8 @@ export class TaskView {
             title: this.titleInput.value.trim(),
             description: this.descriptionInput.value.trim(),
             priority: this.priorityInput.value,
-            dueDate: this.dueDateInput.value
+            dueDate: this.dueDateInput.value,
+            editingId: this.editingId
         };
     }
     clearForm() {
@@ -54,16 +56,27 @@ export class TaskView {
                     <span class="priority-${task.priority}">${task.priority}</span>
                     <p>Vence: ${task.dueDate || 'Sin fecha'}</p>
                     <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
-                    <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
+                    <button data-id="${task.id}" class="delete-btn">Eliminar</button>
+                    <button data-id="${task.id}" class="edit-btn">Editar</button>
                 </div>
             `)
             .join('');
     }
+    loadTaskIntoForm(task) {
+        this.editingId = task.id;
+        this.titleInput.value = task.title;
+        this.descriptionInput.value = task.description;
+        this.priorityInput.value = task.priority;
+        this.dueDateInput.value = task.dueDate;
+        this.form.querySelector('button[type="submit"]').textContent = 'Actualizar tarea';
+    }
     bindAddTask(handler) {
         this.form.addEventListener('submit', (event) => {
             event.preventDefault();
-            const { title, description, priority, dueDate } = this.getFormData();
-            handler(title, description, priority, dueDate);
+            const { title, description, priority, dueDate, editingId } = this.getFormData();
+            handler(title, description, priority, dueDate, editingId);
+            this.editingId = null;
+            this.form.querySelector('button[type="submit"]').textContent = 'Agregar tarea';
         });
     }
     bindDeleteTask(handler) {
@@ -91,6 +104,14 @@ export class TaskView {
         this.taskList.addEventListener('click', (event) => {
             const target = event.target;
             if (target.classList.contains('toggle-btn')) {
+                handler(Number(target.dataset.id));
+            }
+        });
+    }
+    bindEditTask(handler) {
+        this.taskList.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target.classList.contains('edit-btn')) {
                 handler(Number(target.dataset.id));
             }
         });

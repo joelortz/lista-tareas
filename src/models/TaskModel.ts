@@ -70,4 +70,15 @@ export class TaskModel {
             this.storage.saveTasks(this.tasks);
         }
     }
+
+    updateTask(id: number, title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string): void {
+        const task = this.tasks.find(t => t.id === id);
+        if (task) {
+            task.title = title;
+            task.description = description;
+            task.priority = priority;
+            task.dueDate = dueDate;
+            this.storage.saveTasks(this.tasks); 
+        }
+    }
 }
