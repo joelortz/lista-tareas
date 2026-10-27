@@ -8,6 +8,7 @@ export class TaskView {
     priorityInput;
     statusFilter;
     pendingCountEl;
+    dueDateInput;
     constructor() {
         this.form = document.getElementById('taskForm');
         this.titleInput = document.getElementById('taskTitle');
@@ -18,12 +19,14 @@ export class TaskView {
         this.priorityInput = document.getElementById('taskPriority');
         this.statusFilter = document.getElementById('statusFilter');
         this.pendingCountEl = document.getElementById('pendingCount');
+        this.dueDateInput = document.getElementById('taskDueDate');
     }
     getFormData() {
         return {
             title: this.titleInput.value.trim(),
             description: this.descriptionInput.value.trim(),
-            priority: this.priorityInput.value
+            priority: this.priorityInput.value,
+            dueDate: this.dueDateInput.value
         };
     }
     clearForm() {
@@ -49,6 +52,7 @@ export class TaskView {
                         <p>${task.description}</p>
                         <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
                         <span class="priority-${task.priority}">${task.priority}</span>
+                        <p>Vence: ${task.dueDate || 'Sin fecha'}</p>
                         <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
                         <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
                     </div>
@@ -58,8 +62,8 @@ export class TaskView {
     bindAddTask(handler) {
         this.form.addEventListener('submit', (event) => {
             event.preventDefault();
-            const { title, description, priority } = this.getFormData();
-            handler(title, description, priority);
+            const { title, description, priority, dueDate } = this.getFormData();
+            handler(title, description, priority, dueDate);
         });
     }
     bindDeleteTask(handler) {

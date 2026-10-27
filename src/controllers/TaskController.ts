@@ -23,13 +23,13 @@ export class TaskController {
         this.view.renderPendingCount(this.model.getPendingCount());
     }
 
-    private handleAddTask(title: string, description: string, priority: 'alta' | 'media' | 'baja'): void {
+    private handleAddTask(title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string): void {
         if (!title) {
             this.view.showMessage('El título es obligatorio', 'error');
             return;
         }
 
-        this.model.addTask(title, description, priority);
+        this.model.addTask(title, description, priority, dueDate);
         this.refresh();
         this.view.clearForm();
         this.view.showMessage('Tarea agregada correctamente', 'success');

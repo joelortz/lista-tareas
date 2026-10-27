@@ -4,5 +4,6 @@ export interface Task {
     description: string;
     completed: boolean;
     priority: 'alta' | 'media' | 'baja';
+    dueDate: string;
 }
 //# sourceMappingURL=Task.d.ts.map

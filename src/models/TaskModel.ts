@@ -13,13 +13,14 @@ export class TaskModel {
             : 1;
     }
 
-    addTask(title: string, description: string, priority: 'alta' | 'media' | 'baja'): Task {
+    addTask(title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string): Task {
         const newTask: Task = {
             id: this.currentId,
             title,
             description,
             completed: false,
-            priority
+            priority,
+            dueDate
         };
 
         this.tasks.push(newTask);
@@ -52,6 +53,14 @@ export class TaskModel {
 
     getPendingCount(): number {
         return this.tasks.filter(t => !t.completed).length;
+    }
+
+    isOverdue(task: Task): boolean {
+        if (task.completed || !task.dueDate) {
+            return false;
+        }
+        const today = new Date().toISOString().split('T')[0] ?? '';
+        return task.dueDate < today;
     }
 
     toggleComplete(id: number): void {

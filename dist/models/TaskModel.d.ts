@@ -4,12 +4,13 @@ export declare class TaskModel {
     private currentId;
     private storage;
     constructor();
-    addTask(title: string, description: string, priority: 'alta' | 'media' | 'baja'): Task;
+    addTask(title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string): Task;
     getAllTasks(): Task[];
     deleteTask(id: number): void;
     searchTasks(query: string): Task[];
     filterByStatus(status: 'all' | 'pending' | 'completed'): Task[];
     getPendingCount(): number;
+    isOverdue(task: Task): boolean;
     toggleComplete(id: number): void;
 }
 //# sourceMappingURL=TaskModel.d.ts.map

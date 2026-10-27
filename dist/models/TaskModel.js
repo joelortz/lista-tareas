@@ -9,13 +9,14 @@ export class TaskModel {
             ? Math.max(...this.tasks.map(task => task.id)) + 1
             : 1;
     }
-    addTask(title, description, priority) {
+    addTask(title, description, priority, dueDate) {
         const newTask = {
             id: this.currentId,
             title,
             description,
             completed: false,
-            priority
+            priority,
+            dueDate
         };
         this.tasks.push(newTask);
         this.currentId++;
@@ -41,6 +42,13 @@ export class TaskModel {
     }
     getPendingCount() {
         return this.tasks.filter(t => !t.completed).length;
+    }
+    isOverdue(task) {
+        if (task.completed || !task.dueDate) {
+            return false;
+        }
+        const today = new Date().toISOString().split('T')[0] ?? '';
+        return task.dueDate < today;
     }
     toggleComplete(id) {
         const task = this.tasks.find(t => t.id === id);

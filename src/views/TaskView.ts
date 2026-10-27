@@ -10,6 +10,7 @@
         private priorityInput: HTMLSelectElement;
         private statusFilter: HTMLSelectElement;
         private pendingCountEl: HTMLParagraphElement;
+        private dueDateInput: HTMLInputElement;
 
         constructor() {
             this.form = document.getElementById('taskForm') as HTMLFormElement;
@@ -21,13 +22,15 @@
             this.priorityInput = document.getElementById('taskPriority') as HTMLSelectElement;
             this.statusFilter = document.getElementById('statusFilter') as HTMLSelectElement;
             this.pendingCountEl = document.getElementById('pendingCount') as HTMLParagraphElement;
+            this.dueDateInput = document.getElementById('taskDueDate') as HTMLInputElement;
         }
 
-        getFormData(): { title: string; description: string; priority: 'alta' | 'media' | 'baja' } {
+        getFormData(): { title: string; description: string; priority: 'alta' | 'media' | 'baja'; dueDate: string } {
             return {
                 title: this.titleInput.value.trim(),
                 description: this.descriptionInput.value.trim(),
-                priority: this.priorityInput.value as 'alta' | 'media' | 'baja'
+                priority: this.priorityInput.value as 'alta' | 'media' | 'baja',
+                dueDate: this.dueDateInput.value
             };
         }
 
@@ -56,6 +59,7 @@
                         <p>${task.description}</p>
                         <span>${task.completed ? 'Completada' : 'Pendiente'}</span>
                         <span class="priority-${task.priority}">${task.priority}</span>
+                        <p>Vence: ${task.dueDate || 'Sin fecha'}</p>
                         <button data-id="${task.id}" class="toggle-btn">${task.completed ? 'Marcar pendiente' : 'Completar'}</button>
                         <button data-id="${task.id}" class="delete-btn">Eliminar</button>   
                     </div>
@@ -63,11 +67,11 @@
                 .join('');
         }
         
-        bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja') => void): void {
+        bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja',  dueDate: string) => void): void {
             this.form.addEventListener('submit', (event) => {
                 event.preventDefault();
-                const { title, description, priority } = this.getFormData();
-                handler(title, description, priority);
+                const { title, description, priority, dueDate } = this.getFormData();
+                handler(title, description, priority, dueDate);
             });
         }
         bindDeleteTask(handler: (id: number) => void): void {

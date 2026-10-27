@@ -9,16 +9,18 @@ export declare class TaskView {
     private priorityInput;
     private statusFilter;
     private pendingCountEl;
+    private dueDateInput;
     constructor();
     getFormData(): {
         title: string;
         description: string;
         priority: 'alta' | 'media' | 'baja';
+        dueDate: string;
     };
     clearForm(): void;
     showMessage(text: string, type: 'success' | 'error'): void;
     renderTasks(tasks: Task[]): void;
-    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja') => void): void;
+    bindAddTask(handler: (title: string, description: string, priority: 'alta' | 'media' | 'baja', dueDate: string) => void): void;
     bindDeleteTask(handler: (id: number) => void): void;
     bindSearch(handler: (query: string) => void): void;
     bindFilterStatus(handler: (status: 'all' | 'pending' | 'completed') => void): void;
